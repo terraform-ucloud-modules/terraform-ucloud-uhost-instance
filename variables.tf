@@ -35,7 +35,7 @@ variable "instance_type" {
   default     = "n-basic-2"
 }
 
-variable "root_password" {
+variable "password" {
   description = "The password of instance"
 }
 
@@ -54,33 +54,23 @@ variable "duration" {
   default     = 1
 }
 
-# variable "boot_disk_size" {
-#   description = "The size of boot disk"
-#   default = 
-# }
-
 variable "boot_disk_type" {
-  description = "The type of boot disk. Possible values: local_normal, local_ssd, cloud_normal, cloud_ssd."
+  description = "The type of system disk. Possible values: local_normal, local_ssd, cloud_normal, cloud_ssd."
   default     = "local_normal"
 }
 
-variable "data_disk_size" {
+variable "local_disk_size" {
   description = "The size of local data disk"
   default     = 0
 }
 
-variable "data_disk_type" {
+variable "local_disk_type" {
   description = "The type of local data disk. Possible values: local_normal, local_ssd."
   default     = "local_normal"
 }
 
-variable "instance_remark" {
-  description = "The remarks of instance"
-  default     = ""
-}
-
-variable "instance_tag" {
-  description = "The tag of instance"
+variable "tag" {
+  description = "The tag of instance and other related resources"
   default     = "Default"
 }
 
@@ -101,7 +91,7 @@ variable "subnet_id" {
 
 # cloud disk
 
-variable "disk_count" {
+variable "disk_count_per_instance" {
   description = "Number of disks to launch."
   default     = 0
 }
@@ -121,14 +111,9 @@ variable "disk_type" {
   default     = "data_disk"
 }
 
-variable "disk_tag" {
-  description = "The tag of disk."
-  default     = "Default"
-}
-
 # eip
 
-variable "eip_count" {
+variable "eip_count_per_instance" {
   description = "Number of eips to launch."
   default     = 0
 }
@@ -151,14 +136,4 @@ variable "eip_internet_type" {
 variable "eip_charge_mode" {
   description = "The charge mode of eip. Possible values: traffic, bandwidth."
   default     = "bandwidth"
-}
-
-variable "eip_remark" {
-  description = "The remarks of eip."
-  default     = ""
-}
-
-variable "eip_tag" {
-  description = "The tag of eip."
-  default     = "Default"
 }
