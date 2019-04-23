@@ -1,5 +1,5 @@
 variable "availability_zone" {
-  description = "Available zone where instance and other resources are located."
+  description = "Available zone where instance and other resources are located. If not set, the first availability zone of current region will be used."
   default     = ""
 }
 
@@ -10,12 +10,12 @@ variable "count_format" {
 
 # image
 variable "image_name_regex" {
-  description = "The name regex of image to use for fetch specified image."
-  default     = "^CentOS 6.5 64"
+  description = "The name regex of image to use for fetch specified image when image_id isn't set"
+  default     = "^CentOS 7.4 64"
 }
 
 variable "image_type" {
-  description = "The type of image. Possible values: base, business, custom."
+  description = "The type of image to filter image when image_id isn't set."
   default     = "base"
 }
 
@@ -32,7 +32,7 @@ variable "instance_count" {
 
 variable "instance_type" {
   description = "The type of instance to launch."
-  default     = "n-basic-2"
+  default     = "n-basic-1"
 }
 
 variable "password" {
@@ -75,7 +75,7 @@ variable "tag" {
 }
 
 variable "security_group" {
-  description = "ID of security group to use for instances."
+  description = "ID of security group to use for instances. If not set, the default security group will be used."
   default     = ""
 }
 
@@ -92,7 +92,7 @@ variable "subnet_id" {
 # cloud disk
 
 variable "disk_count_per_instance" {
-  description = "Number of disks to launch."
+  description = "Number of disks attach to per instance."
   default     = 0
 }
 
@@ -103,7 +103,7 @@ variable "disk_name" {
 
 variable "disk_size" {
   description = "The size of cloud data disk."
-  default     = 50
+  default     = 30
 }
 
 variable "disk_type" {
@@ -114,7 +114,7 @@ variable "disk_type" {
 # eip
 
 variable "eip_count_per_instance" {
-  description = "Number of eips to launch."
+  description = "Number of eips assiocate to per instance."
   default     = 0
 }
 

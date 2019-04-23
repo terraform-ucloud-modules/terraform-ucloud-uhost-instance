@@ -1,10 +1,8 @@
 # Complete UHost instance
 
-Configuration in this directory creates UHost instances with minimum set of arguments. It will also assign Elastic IP (EIP) to an instance.
+Configuration in this directory creates UHost instances, Elastic IP (EIP), disk and attach it together.
 
-Unspecified arguments for security group id, subnet and VPC are used from the default.
-
-This example outputs instance id and public ip, etc.
+This example outputs instance id and public ips, disk ids.
 
 ## Usage
 

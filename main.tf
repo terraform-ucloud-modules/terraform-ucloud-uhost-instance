@@ -8,6 +8,7 @@ data "ucloud_images" "default" {
   image_type        = "${var.image_type}"
 }
 
+# Create uhost instance
 resource "ucloud_instance" "instances" {
   image_id          = "${var.image_id == "" ? data.ucloud_images.default.images.0.id : var.image_id }"
   availability_zone = "${var.availability_zone == "" ? data.ucloud_zones.default.zones.0.id : var.availability_zone}"
@@ -30,7 +31,7 @@ resource "ucloud_instance" "instances" {
   count = "${var.instance_count}"
 }
 
-# Create an eip
+# Create eip
 resource "ucloud_eip" "eips" {
   bandwidth     = "${var.eip_bandwidth}"
   internet_type = "${var.eip_internet_type}"
@@ -50,6 +51,7 @@ resource "ucloud_eip_association" "default" {
   count       = "${(var.instance_count > 0 && var.eip_count_per_instance > 0) ? var.eip_count_per_instance * var.instance_count : 0}"
 }
 
+# Create cloud disk
 resource "ucloud_disk" "disks" {
   availability_zone = "${var.availability_zone == "" ? data.ucloud_zones.default.zones.0.id : var.availability_zone}"
   name              = "${var.disk_count_per_instance < 2 ? var.disk_name : format("%s-%s", var.disk_name, format(var.count_format, count.index+1))}"
@@ -61,6 +63,7 @@ resource "ucloud_disk" "disks" {
   count             = "${var.disk_count_per_instance * var.instance_count}"
 }
 
+# Attach disk to instance
 resource "ucloud_disk_attachment" "default" {
   availability_zone = "${var.availability_zone == "" ? data.ucloud_zones.default.zones.0.id : var.availability_zone}"
   instance_id       = "${ucloud_instance.instances.*.id[count.index%var.instance_count]}"
