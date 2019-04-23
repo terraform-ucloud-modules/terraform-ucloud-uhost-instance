@@ -46,7 +46,7 @@ module "uhost_instance" {
 
 ## Examples
 
-* [Complete UHost instance example](https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/tree/master/examples/volume-attachment)
+* [Complete UHost instance example](https://github.com/terraform-ucloud-modules/terraform-ucloud-uhost-instance/tree/master/examples/complete)
 
 
 ## Inputs
