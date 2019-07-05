@@ -1,4 +1,9 @@
-.terraform
-terraform.tfstate
-*.tfstate*
-terraform.tfvars
+*.tfvars
+*.tfstate
+*.tfstate.backup
+.terraform/
+*.log
+.DS_Store
+.idea
+*.bak
+*.bk

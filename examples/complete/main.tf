@@ -18,10 +18,11 @@ module "uhost_instance" {
   image_name_regex = "^CentOS 7.[1-2] 64"
   image_type       = "base"
   instance_type    = "n-standard-2"
+  boot_disk_type   = "cloud_ssd"
   tag              = "example-complete"
 
   # the default Web Security Group that UCloud recommend to users
-  security_group = "${data.ucloud_security_groups.default.security_groups.0.id}"
+  security_group = data.ucloud_security_groups.default.security_groups[0].id
 
   # eip
   eip_count_per_instance = 1
