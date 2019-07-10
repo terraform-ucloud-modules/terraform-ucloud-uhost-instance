@@ -7,21 +7,27 @@ data "ucloud_security_groups" "default" {
   type = "recommend_web"
 }
 
+data "ucloud_images" "default" {
+  availability_zone = "cn-bj2-05"
+  name_regex        = "^CentOS 7.[1-2] 64"
+  image_type        = "base"
+}
+
 # Create uhost instance attached with eip and cloud disk
 module "uhost_instance" {
   source = "../../"
 
-  # uhost instance
-  instance_count   = 2
-  instance_name    = "example-complete-instance"
-  password         = "ucloud_2019"
-  image_name_regex = "^CentOS 7.[1-2] 64"
-  image_type       = "base"
-  instance_type    = "n-standard-2"
-  boot_disk_type   = "cloud_ssd"
-  tag              = "example-complete"
+  # common config
+  availability_zone = "cn-bj2-05"
+  tag               = "example-complete"
 
-  # the default Web Security Group that UCloud recommend to users
+  # uhost instance
+  instance_count = 2
+  image_id       = data.ucloud_images.default.images[0].id
+  instance_type  = "n-standard-2"
+  password       = "ucloud_2019"
+  instance_name  = "example-complete-instance"
+  boot_disk_type = "cloud_ssd"
   security_group = data.ucloud_security_groups.default.security_groups[0].id
 
   # eip

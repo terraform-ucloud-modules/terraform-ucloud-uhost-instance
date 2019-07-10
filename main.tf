@@ -1,18 +1,7 @@
-# Query availability zone
-data "ucloud_zones" "default" {
-}
-
-# Query image
-data "ucloud_images" "default" {
-  availability_zone = data.ucloud_zones.default.zones[0].id
-  name_regex        = var.image_name_regex
-  image_type        = var.image_type
-}
-
 # Create uhost instance
 resource "ucloud_instance" "instances" {
-  image_id          = var.image_id == "" ? data.ucloud_images.default.images[0].id : var.image_id
-  availability_zone = var.availability_zone == "" ? data.ucloud_zones.default.zones[0].id : var.availability_zone
+  image_id          = var.image_id
+  availability_zone = var.availability_zone
   instance_type     = var.instance_type
   root_password     = var.password
   name = var.instance_count < 2 ? var.instance_name : format(
@@ -20,12 +9,13 @@ resource "ucloud_instance" "instances" {
     var.instance_name,
     format(var.count_format, count.index + 1),
   )
-  charge_type    = var.charge_type
-  duration       = var.duration
-  tag            = var.tag
-  security_group = var.security_group
-  vpc_id         = var.vpc_id
-  subnet_id      = var.subnet_id
+  charge_type     = var.charge_type
+  duration        = var.duration
+  tag             = var.tag
+  security_group  = var.security_group
+  vpc_id          = var.vpc_id
+  subnet_id       = var.subnet_id
+  isolation_group = var.isolation_group
 
   data_disk_size = var.local_disk_size
   data_disk_type = var.local_disk_type
@@ -61,7 +51,7 @@ resource "ucloud_eip_association" "default" {
 
 # Create cloud disk
 resource "ucloud_disk" "disks" {
-  availability_zone = var.availability_zone == "" ? data.ucloud_zones.default.zones[0].id : var.availability_zone
+  availability_zone = var.availability_zone
   name = var.disk_count_per_instance < 2 ? var.disk_name : format(
     "%s-%s",
     var.disk_name,
@@ -77,7 +67,7 @@ resource "ucloud_disk" "disks" {
 
 # Attach disk to instance
 resource "ucloud_disk_attachment" "default" {
-  availability_zone = var.availability_zone == "" ? data.ucloud_zones.default.zones[0].id : var.availability_zone
+  availability_zone = var.availability_zone
   instance_id       = ucloud_instance.instances[count.index % var.instance_count].id
   disk_id           = ucloud_disk.disks[count.index].id
   count             = var.disk_count_per_instance > 0 && var.instance_count > 0 ? var.disk_count_per_instance * var.instance_count : 0

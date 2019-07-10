@@ -1,6 +1,5 @@
 variable "availability_zone" {
-  description = "Available zone where instance and other resources are located. If not set, the first availability zone of current region will be used."
-  default     = ""
+  description = "Available zone where instance and other resources are located."
 }
 
 variable "count_format" {
@@ -9,19 +8,8 @@ variable "count_format" {
 }
 
 # image
-variable "image_name_regex" {
-  description = "The name regex of image to use for fetch specified image when image_id isn't set"
-  default     = "^CentOS 7.4 64"
-}
-
-variable "image_type" {
-  description = "The type of image to filter image when image_id isn't set."
-  default     = "base"
-}
-
 variable "image_id" {
   description = "ID of image to use for instances."
-  default     = ""
 }
 
 # uhost instance
@@ -32,7 +20,6 @@ variable "instance_count" {
 
 variable "instance_type" {
   description = "The type of instance to launch."
-  default     = "n-basic-1"
 }
 
 variable "password" {
@@ -71,11 +58,16 @@ variable "local_disk_type" {
 
 variable "tag" {
   description = "The tag of instance and other related resources"
-  default     = "Default"
+  default     = ""
 }
 
 variable "security_group" {
   description = "ID of security group to use for instances. If not set, the default security group will be used."
+  default     = ""
+}
+
+variable "isolation_group" {
+  description = "The ID of isolation group to use for instances."
   default     = ""
 }
 
